@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="container signup-page">
+    {% if alert != None %}
+    <div class="alert {{ alert.type }}">
+        <strong>{{ alert.subject }}</strong>{{ alert.msg }}
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="login-body">
+                <form action="{{ url_for('auth.adminip') }}" method="post">
+                        <div class="text-center" style="font-size: 30px;font-weight: 800;padding: 20px">Admin IP</div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Admin IP address" name="ip" required="required">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Proceed</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+
+</div>
+
+{% endblock %}

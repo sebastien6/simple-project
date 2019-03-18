@@ -1,0 +1,6 @@
+Flask==1.0.2
+flask_sqlalchemy==2.3.1
+psycopg2==2.7.7
+redis==3.2.1
+Flask-Session==0.3.1
+requests==2.21.0

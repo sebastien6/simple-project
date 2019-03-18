@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<meta id="cityid_data" data-cityid="{{ weather.cityid }}">
+
+    <div class="container">
+        <div class="row" style="padding-top: 0.5em">
+            <div class="col-4 justify-content-left">
+                <h1>  Hello, {{ session.logged_in }}</h1>
+            </div>
+            <div class="col-3 justify-content-left"></div>
+            <div class="col-4 justify-content-right">
+                <div id="openweathermap-widget-15"></div>
+                <script>
+                    window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];  
+                    window.myWidgetParam.push({id: 15,cityid: $('#cityid_data').data("cityid"),appid: "{{ weather.key }}",units: 'metric',containerid: 'openweathermap-widget-15',  });
+                    (function() {
+                        var script = document.createElement('script');
+                        script.async = true;
+                        script.charset = "utf-8";
+                        script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(script, s);
+                        })();
+                </script>
+            </div>
+        </div>
+    </div>
+    
+    <hr style="width:0.2em;color:black" >
+
+    <div class="info-table container">
+        <div class="row" style="padding-top: 1.5em">
+            <div class="col-4 justify-content-left">
+                <div style="font-weight: 600;margin: 0.5em;padding: 0.5em">
+                    <h2 style="font-weight: 600">IP based Geolocation Information:</h2>
+                </div>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Client IP</td>
+                            <td> {{ data.ip }}</td>
+                        </tr>
+                        <tr>
+                            <td>City:</td>
+                            <td> {{ data.city }}</td>
+                        </tr>
+                        <tr>
+                            <td>Region:</td>
+                            <td> {{ data.region }}</td>
+                        </tr>
+                        <tr>
+                            <td>Country:</td>
+                            <td> {{ data.country_name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Continent</td>
+                            <td> {{ data.continent }}</td>
+                        </tr>
+                        <tr>
+                            <td>Latitude</td>
+                            <td> {{ data.latitude }}</td>
+                        </tr>
+                        <tr>
+                            <td>Longitude</td>
+                            <td>{{ data.longitude }}</td>
+                        </tr>
+                        <tr>
+                            <td>postal code</td>
+                            <td>{{ data.postal }}</td>
+                        </tr>
+                        <tr>
+                            <td>Flag</td>
+                            <td><img class="info-cover-img" src="{{ data.flag }}" alt="{{ data.country_name }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Currency</td>
+                            <td>{{ data.currency_name }} ({{ data.currency_code }})</td>
+                        </tr>
+                        <tr>
+                            <td>IP is a threat</td>
+                            <td {% if data.threat %} style="color:red" {% else %} style="color:green" {% endif %} >{{ data.threat }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        
+            <div class="col-3 justify-content-left"></div>
+    
+            <div class="col-4 justify-content-right">
+                <div class="container">
+                    
+                    <div class="row" style="padding-top: 1.5em">
+                        <div style="font-weight: 600;margin: 0.5em;padding: 0.5em">
+                            <h2>Currency Change Rate:</h2>
+                        </div>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>{{ data.currency_code }} to USD</td>
+                                    <td> {{ currency.USD }}$</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ data.currency_code }} to EUR</td>
+                                    <td> {{ currency.EUR }}&euro;</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ data.currency_code }} to JPY</td>
+                                    <td> {{ currency.JPY }}&yen;</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ data.currency_code }} to CAD</td>
+                                    <td> ${{ currency.CAD }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,6 @@
+/webapp/micro/auth/__pycache__
+/webapp/micro/main/__pycache__
+/webapp/micro/__pycache__
+/webapp/__pycache__
+*.pyc
+myenv.txt

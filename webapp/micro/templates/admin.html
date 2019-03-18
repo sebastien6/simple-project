@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<script type="text/javascript">
+    function adminRight(user, action){
+        var info = {'username': user, 'action': action};
+        $.ajax({
+                url: '/admin',
+                data: info,
+                type: 'POST',
+                success: function(response) {
+                    if(response.success == true){
+                        console.log(`success, user ${user}  admin rights were changed`);
+                    }
+                    setTimeout(function(){
+                        location.reload();
+                    }, 2000);
+                },
+                error: function(response) {
+                    if(response.success == false){
+                        console.log(`error updating user ${user} admin rights!`);
+                    }
+                }
+            });
+    };
+    function deleteUser(user, action){
+        var info = {'username': user, 'action': action};
+        $.ajax({
+                url: '/admin',
+                data: info,
+                type: 'POST',
+                success: function(response) {
+                    if(response.success == true){
+                        console.log(`success, user ${user}  was deleted`); 
+                    }
+                    setTimeout(function(){
+                        location.reload();
+                    }, 5000);
+                },
+                error: function(response) {
+                    if(response.success == false){
+                        console.log(`error deleting user ${user} !`);
+                    }
+                }
+            });
+    };
+</script>
+
+<div class="info-table container">
+        <div class="row" style="padding-top: 1.5em">
+            <div class="col-4 justify-content-left">
+                <div style="font-weight: 600;margin: 0.5em;padding: 0.5em">
+                    <h2 style="font-weight: 600">List of users:</h2>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>First Name</th>
+                            <th>Lastname</th>
+                            <th>Admin Rigth</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td> {{ user.username }} </td>
+                            <td> {{ user.firstname }} </td>
+                            <td> {{ user.lastname }} </td>
+                            <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input checkadmin" type="checkbox" onclick="adminRight('{{ user.username }}', 'update')" {% if user.isadmin %} checked="checked" {% endif %}>
+                                </label>
+                            </div>
+                            </td>
+                            {% if not user.isadmin %}
+                            <td>
+                                <button class="btn btn-warning" onclick="deleteUser('{{ user.username }}', 'delete')"><i class="fas fa-trash" data-toggle="tooltip" title="delete-user"></i> Delete </button>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+{% endblock %}

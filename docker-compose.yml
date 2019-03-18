@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  pgdb:
+    image: postgres:alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PWD}
+      - POSTGRES_DB=${PG_DB}
+      - PGDATA=${PGDATA}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
+
+  web:
+    build: .
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./webapp:/webapp
+    env_file:
+      - .env
+    depends_on:
+      - pgdb
+      - redis
+
+volumes:
+  pgdata:
