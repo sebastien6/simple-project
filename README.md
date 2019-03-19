@@ -20,8 +20,3 @@ DATABASE:
 
 AUTHENTICATION:
     webapp is based on database authentication only. No external provider set.
-
-KEY MISSING ELEMENTS:
-    - error handling
-    - unit testing
-    - Higher security (HTTPS, password encryption by key instead of hash, ...)
